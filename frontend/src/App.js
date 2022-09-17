@@ -1,25 +1,63 @@
-import logo from './logo.svg';
 import './App.css';
 
+// Importing from libraries
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Importing Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+// importing Pages
+import HomePage from './pages/Home/Home';
+import LoginPage from './pages/Authentication/Login';
+import RegisterPage from './pages/Authentication/Register';
+import TeacherDashboardPage from './pages/Dashboard/TeacherDashboard';
+import AddStudentPage from './pages/AddStudent/AddStudent';
+import AttendancePage from './pages/Attendance/Attendance';
+import BatchPage from './pages/Batch/Batch';
+import ErrorPage from './pages/ErrorPage';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className="App">
+			<h2>App</h2>
+			<Navbar />
+
+			<BrowserRouter>
+				<main>
+					<Routes>
+						<Route exact path="/" element={<HomePage />} />
+						<Route exact path="/login" element={<LoginPage />} />
+						<Route
+							exact
+							path="/register"
+							element={<RegisterPage />}
+						/>
+						<Route
+							exact
+							path="/dashboard"
+							element={<TeacherDashboardPage />}
+						/>
+						<Route
+							exact
+							path="/addstudent"
+							element={<AddStudentPage />}
+						/>
+						<Route
+							exact
+							path="/attendance"
+							element={<AttendancePage />}
+						/>
+						<Route exact path="/batch" element={<BatchPage />} />
+
+						<Route path="*" element={<ErrorPage />} />
+					</Routes>
+				</main>
+			</BrowserRouter>
+
+			<Footer />
+		</div>
+	);
 }
 
 export default App;
