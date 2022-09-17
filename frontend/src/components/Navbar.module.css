@@ -1,3 +1,28 @@
-.nav{
-    color: red;
+.nav {
+	background-color: white;
+	height: 13vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    padding: 0.069em 9.6em 0;
+}
+
+.logo {
+	height: 20%;
+	/* padding-right: 10em; */
+}
+
+.navMenu {
+	background-color: white;
+    /* padding-right: 10rem; */
+	height: 20px;
+	display: flex;
+	gap: 2em;
+}
+
+.logoImage {
+	/* border: 1px solid red; */
+	margin-top: -27%;
+	width: 80%;
+	/* height: 150%; */
 }

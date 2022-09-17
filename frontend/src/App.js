@@ -20,10 +20,8 @@ import ErrorPage from './pages/ErrorPage';
 function App() {
 	return (
 		<div className="App">
-			<h2>App</h2>
-			<Navbar />
-
 			<BrowserRouter>
+				<Navbar />
 				<main>
 					<Routes>
 						<Route exact path="/" element={<HomePage />} />

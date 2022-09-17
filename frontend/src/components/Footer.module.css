@@ -1,0 +1,24 @@
+.footer{
+    color: white;
+    background-color: #0E222D;
+    position: relative;
+    width: 100vw;
+    height: 13vh;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.footerLeft{
+
+}
+
+.footerCenter{
+
+}
+
+.footerRight{
+
+}
