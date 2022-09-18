@@ -146,10 +146,13 @@ const Attendance = () => {
 			</div>
 			<div className={attendance.uploadimage}>
 	
-					 <IconButton color="primary" aria-label="upload picture" component="label"  >
-        				<input  id="classimg" accept="image/*" type="file" onChange={imageHandler} />
+					 <IconButton color="primary" aria-label="upload picture" component="label" sx={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}  >
+        				<input  id="classimg" hidden accept="image/*" type="file" onChange={imageHandler} />
 	        				<PhotoCamera />
+							<h6>Upload</h6>
+							
     			  	</IconButton>
+					{/* later on i will add modal for better preview of image with big size and fine clearity to confirm */}
 					
 					<div className={attendance.preview}>
 						<img src={classImg} alt="upload class image" />
