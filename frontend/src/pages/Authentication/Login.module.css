@@ -1,3 +1,56 @@
-.container{
-    border: 1px solid black;
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3em;
+    min-height: 73.2vh;
+}
+
+.login{
+    display: flex;
+    gap: 2.5em;
+    flex-direction: column;
+    border-radius: 30px;
+    align-items: center;
+    padding: 2em;
+    min-width: 50%;
+}
+
+.link{
+    color: blue;
+}
+
+.login > div{
+    width: 50%
+}
+.email{
+    width: 50%
+}
+
+@media (max-width: 767px){  /*responive styles for tablet view*/
+    .form{
+        min-height: none;
+    }
+    
+    .login{
+        width: 80%;
+    }
+
+    
+    .login > div{
+        width: 80%
+    }
+
+}
+
+@media (max-width: 400px){  /*responive styles for mobile view*/
+
+    .login{
+        width: 95%;
+    }
+
+    
+    .login > div{
+        width: 100%
+    }
 }
