@@ -1,12 +1,35 @@
+// importing libraries
 const express = require('express');
 require('dotenv/config');
+
+// importing files
+const faceRouter = require('./routes/faceRouter');
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.get('/api', (req, res) => {
 	console.log('Hello.');
 	res.json({ messsage: 'Hello World!' });
+});
+
+app.use('/api/face', faceRouter);
+
+// if(process.env.ENVIRONMENT === 'production'){
+
+// }else{
+
+// }
+
+app.use('*', (req, res) => {
+	res.json({
+		success: false,
+		message: 'Invalid Path',
+	});
 });
 
 app.listen(PORT, () => {

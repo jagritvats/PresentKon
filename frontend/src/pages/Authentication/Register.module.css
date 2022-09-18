@@ -1,0 +1,45 @@
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    border: 2em white solid;
+}
+
+.register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+    padding-bottom: 0.35em;
+    width : 70%;
+}
+
+.link{
+    color: blue;
+    width: 100%;
+}
+
+@media(max-width: 767px){   /*Responsive styles for tablet view*/
+    .form{
+        width: 90%;
+    }
+
+    .register > div{
+        width: 80%
+    }
+    .register{
+        width: 100%;
+        font-size: small;
+    }
+}
+
+@media(max-width: 400px){ /*Responsive styles for mobile view*/
+    .form{
+        width: 90%;
+        font-size: medium;
+    }
+
+    .register > div{
+        width: 90%
+    }
+}

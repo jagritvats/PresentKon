@@ -16,8 +16,15 @@ import AddStudentPage from './pages/AddStudent/AddStudent';
 import AttendancePage from './pages/Attendance/Attendance';
 import BatchPage from './pages/Batch/Batch';
 import ErrorPage from './pages/ErrorPage';
+import { useEffect } from 'react';
 
 function App() {
+	const demo = useEffect(() => {
+		(async () => {
+			const res = await fetch('/api');
+			console.log('From server : ', res);
+		})();
+	});
 	return (
 		<div className="App">
 			<BrowserRouter>
