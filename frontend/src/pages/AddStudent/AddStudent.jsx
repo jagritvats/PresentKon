@@ -76,7 +76,7 @@ const AddStudent = () => {
 		try {
 			console.log('submitting student');
 			const person = await axios.post(
-				'http://localhost:5000/api/face/person',
+				'https://tan-sleepy-basket-clam.cyclic.app/api/face/person',
 				{
 					personGroupId: selected.toLowerCase(),
 					personId: rollNumber,
@@ -85,11 +85,14 @@ const AddStudent = () => {
 
 			console.log('person', person, person?.data?.personId, 'url', URL);
 
-			await axios.post('http://localhost:5000/api/face/addimage', {
-				personGroupId: selected.toLowerCase(),
-				personId: person?.data?.data?.personId,
-				imgurl: URL,
-			});
+			await axios.post(
+				'https://tan-sleepy-basket-clam.cyclic.app/api/face/addimage',
+				{
+					personGroupId: selected.toLowerCase(),
+					personId: person?.data?.data?.personId,
+					imgurl: URL,
+				}
+			);
 
 			const studentData = {
 				name,
@@ -126,9 +129,12 @@ const AddStudent = () => {
 			console.log('fire', fireres, ' firebatch', firebatch);
 			alert('Added new person');
 
-			await axios.post('http://localhost:5000/api/face/train', {
-				personGroupId: selected.toLowerCase(),
-			});
+			await axios.post(
+				'https://tan-sleepy-basket-clam.cyclic.app/api/face/train',
+				{
+					personGroupId: selected.toLowerCase(),
+				}
+			);
 			console.log('Trained');
 		} catch (err) {
 			console.error(err);

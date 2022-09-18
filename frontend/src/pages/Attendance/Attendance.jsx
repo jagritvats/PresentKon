@@ -75,7 +75,7 @@ export default function Markattendance(props) {
 			setProcessing(true);
 			console.log('Posting for Detection: ');
 			let detected = await axios.post(
-				'http://localhost:5000/api/face/detect',
+				'https://tan-sleepy-basket-clam.cyclic.app/api/face/detect',
 				{
 					imgurl: URL,
 				}
@@ -89,7 +89,7 @@ export default function Markattendance(props) {
 
 			// identify the detected faces using Azure Cognitive Services
 			const identify = await axios.post(
-				'http://localhost:5000/api/face/identify',
+				'https://tan-sleepy-basket-clam.cyclic.app/api/face/identify',
 				{
 					personGroupId: params.id.toLowerCase(),
 					faceIds: faceids,

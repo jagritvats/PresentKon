@@ -48,7 +48,7 @@ export default function TeacherDashboard() {
 			return;
 		}
 		const res = await axios.post(
-			'http://localhost:5000/api/face/persongroup',
+			'https://tan-sleepy-basket-clam.cyclic.app/api/face/persongroup',
 			{
 				personGroupId: batchName,
 			}
