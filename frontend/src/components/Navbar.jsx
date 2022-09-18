@@ -5,8 +5,42 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { Typography } from '@mui/material';
+import { useState } from 'react';
 
 const Navbar = () => {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	const logIn = () => {
+		console.log('login');
+		setIsLoggedIn(true);
+	};
+
+	const func = () => {
+		if (isLoggedIn) {
+			return (
+				<Box sx={{ bgcolor: 'white', height: '20px' }}>
+					<Link to="/dashboard">
+						<Button variant="contained" color="primary">
+							Dashboard
+						</Button>
+					</Link>
+				</Box>
+			);
+		} else {
+			return (
+				<Box sx={{ bgcolor: 'white', height: '20px' }}>
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => logIn()}
+					>
+						<Link to="/">Log In</Link>
+					</Button>
+				</Box>
+			);
+		}
+	};
+
 	return (
 		<>
 			<Box className={styles.nav}>
@@ -31,11 +65,8 @@ const Navbar = () => {
 						</Typography>
 					</a>
 				</Box>
-				<Box sx={{ bgcolor: 'white', height: '20px' }}>
-					<Button variant="contained" color="primary">
-						<Link to="/dashboard">Dashboard</Link>
-					</Button>
-				</Box>
+
+				{func()}
 			</Box>
 		</>
 	);

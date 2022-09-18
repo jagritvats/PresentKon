@@ -1,0 +1,32 @@
+.dashboard {
+	/* background-color: red; */
+	width: 90%;
+    text-align: right;
+	height: auto;
+	margin: auto;
+	padding-top: 3em;
+    /* margin-bottom: 3em; */
+}
+
+.dashboardMain {
+	/* padding: 1em 0; */
+	display: flex;
+    width: 90%;
+	align-items: center;
+	justify-content: center;
+    /* border: 2px solid black; */
+    padding: 2em 0;
+    margin: 2em;
+}
+
+.dashboardMainItem {
+    border: 2px solid navy;
+    width: 80%;
+    height: auto;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.369em 2em;
+}
+
