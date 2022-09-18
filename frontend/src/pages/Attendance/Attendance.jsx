@@ -1,226 +1,356 @@
-import * as React from 'react';
-import attendance from './Attendance.module.css';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
-import { useState,useParams } from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import markatt from './Markattendance.module.css';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+	addDoc,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	onSnapshot,
+	setDoc,
+} from 'firebase/firestore';
+import { db } from '../../config/firebase';
+import { Button, CircularProgress, MenuItem, TextField } from '@mui/material';
+import axios from 'axios';
+import useStorage from '../../hooks/useStorage';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
+export default function Markattendance(props) {
+	const [data, setData] = useState([]); // batch data -> students list
+	const [attendance, setAttendance] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [processing, setProcessing] = useState(false);
+	const [error, setError] = useState(false);
+	const [file, setFile] = useState(null);
+	const [faceIds, setFaceIds] = useState([]);
+	const [attarr, setAttarr] = useState([]);
+	const { URL } = useStorage(file);
 
-import dayjs, { Dayjs } from 'dayjs';
-import TextField from '@mui/material/TextField';
+	// form
+	const [checkboxes, setCheckboxes] = useState({});
 
-import {Edit} from '@mui/icons-material';
+	let params = useParams();
+	var i = 1;
 
-
-
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
-// icons
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-
-// image
-import previewimg from './previewImg.png';
-
-
-
-
-
-// FOR TABLE
-const columns: GridColDef[] = [
-	{ field: 'id', headerName: 'S.NO.', width: 10  },
-	{ field: 'name', headerName: 'NAME', width: 700 },
-	{
-		field: 'rollno',
-		headerName: 'Roll No',
-		// type: 'number',
-		width: 240,
-	}
-	,
-	{
-		field: 'status',
-		headerName:'Present/Absent',
-		width:240
-	}
-	];
-
-	const rows: GridRowsProp = [
-	{ id: 1, name: 'Jon', rollno: 2010990201, status:'N/A' },
-	{ id: 2, name: 'Lannister Cersei', rollno: 2010990202,status:'N/A'},
-	{ id: 3, name: 'Lannister Jaime', rollno: 2010990203,status:'N/A' },
-	{ id: 4, name: 'Stark Arya', rollno: 2010990204,status:'N/A' },
-	{ id: 5, name: 'Targaryen Daenerys', rollno: 2010990205,status:'N/A' },
-	{ id: 6, name: 'Melisandre',rollno: 2010990206,status:'N/A' },
-	{ id: 7, name: 'Clifford', rollno: 2010990207,status:'N/A' },
-	{ id: 8, name: 'Frances',  rollno: 2010990208,status:'N/A' },
-	{ id: 9, name: 'Roxie Harvey', rollno: 2010990209,status:'N/A' },
-	];
-
-
-
-
-const Attendance = () => {
-
-	const [imageprocessed,setImageprocessed] = useState(false);
-	// date setting
-	const [date, setDate]  = useState(dayjs());
-
-	// PERIOD SETTING
-	const [period, setPeriod] = useState("");
-	const handleChange = (event) => {
-		setPeriod(event.target.value+"");
-		console.log(period);
-	};
-
-	
-		
-	// image preview
-	const [classImg,setClassImg] = useState('https://image.shutterstock.com/image-vector/group-people-icon-260nw-342536540.jpg');
-	// const [classImg,setClassImg] = useState(previewimg);
-
-	//image handler
-	function imageHandler(e){
-
-		const reader = new FileReader();
-
-		reader.onload=()=>{
-			if(reader.readyState===2){
-				setClassImg(reader.result);
-			}
+	useEffect(() => {
+		setIsLoading(true);
+		let unsub;
+		try {
+			unsub = onSnapshot(
+				doc(db, 'batches', params.id.toLowerCase()),
+				async (docs) => {
+					let dt = [];
+					const studentList = docs.data().students;
+					for (let i = 0; i < studentList.length; i++) {
+						const currentStudent = (
+							await getDoc(
+								doc(
+									db,
+									'students',
+									studentList[i].toLowerCase()
+								)
+							)
+						).data();
+						dt.push(currentStudent);
+					}
+					setData(dt);
+					console.log(dt);
+					setIsLoading(false);
+				}
+			);
+		} catch (err) {
+			setError(err);
+			setIsLoading(false);
 		}
 
-		reader.readAsDataURL(e.target.files[0]);
+		return unsub;
+	}, []);
+
+	const [date, setDate] = useState(new Date().getUTCDate());
+	const [period, setPeriod] = useState(1);
+
+	const identifyFace = async () => {
+		console.log('Identify Face Called.');
+		try {
+			setProcessing(true);
+			console.log('Posting for Detection: ');
+			let detected = await axios.post(
+				'http://localhost:5000/api/face/detect',
+				{
+					imgurl: URL,
+				}
+			);
+			detected = detected.data;
+			console.log('Dectected Faces : ', detected.data);
+			const faceids = detected.data.map((faceobj) => faceobj.faceId);
+
+			console.log('Extracted Face IDs : ', faceids);
+			setFaceIds(faceids);
+
+			// identify the detected faces using Azure Cognitive Services
+			const identify = await axios.post(
+				'http://localhost:5000/api/face/identify',
+				{
+					personGroupId: params.id.toLowerCase(),
+					faceIds: faceids,
+				}
+			);
+			const identifiedData = identify.data.data;
+			console.log('Indentified Faces : ', identifiedData);
+
+			let attend = [];
+
+			let tempDataArr = [];
+			const personDataSnapshot = await getDocs(
+				collection(db, 'students')
+			);
+			personDataSnapshot.forEach((personDoc) => {
+				tempDataArr.push({
+					data: personDoc.data(),
+					id: personDoc.id,
+				});
+			});
+			console.log('Students Data from Firebase ', tempDataArr);
+
+			console.log('Starting identification logic.');
+			for (let i = 0; i < identifiedData.length; i++) {
+				console.log('Iteration ', i);
+				let identifiedFace = identifiedData[i];
+
+				// if there are any matches for identified faces
+				if (identifiedFace.candidates.length > 0) {
+					console.log('IF :', identifiedFace);
+					const candidatePersonId =
+						identifiedFace.candidates[0].personId; // the first/most likely match for the person
+					const matchConfidence =
+						identifiedFace.candidates[0].confidence;
+
+					console.log('Getting person?', tempDataArr);
+
+					// now get only those students whose Id matches the current candidate person's Id
+
+					let filteredCandidate = tempDataArr.find((personData) => {
+						console.log(
+							'pd',
+							personData,
+							'cpid',
+							candidatePersonId
+						);
+						return personData.data.personId == candidatePersonId;
+					});
+					console.log('Candidate Person ', candidatePersonId);
+					attend.push(filteredCandidate);
+				}
+				setProcessing(false);
+			}
+
+			let atr = [];
+			attend.forEach((att) => {
+				atr.push(att.rollnumber);
+			});
+			console.log('Atr ', atr);
+			setAttendance(attend);
+			console.log('Attend Array :  ', attend);
+			setAttarr(atr);
+			console.log('Attarr ', attarr);
+			// console.log('Attend arr values : ');
+		} catch (err) {
+			console.error('Error in identification ', err);
+		}
+		setIsLoading(false);
+		setProcessing(false);
+	};
+
+	const submitAttendance = async (e) => {
+		e.preventDefault();
+		console.log('Submitting Attendance');
+		const toSubmit = attendance;
+		const attend_id = `${params.id}_${date}_${period}`;
+		console.log(attendance);
+		const rolls = [...attendance.map((att) => att.rollnumber)];
+		const attendanceData = {
+			batch: params.id,
+			date: new Date().valueOf(),
+			period,
+			attendance: [...rolls],
+		};
+
+		console.log('Attendance Data ', attendanceData);
+
+		const attendanceCollection = await collection(db, 'attendance');
+		await addDoc(attendanceCollection, attendanceData);
+		alert('Submitted Attendance');
+	};
+
+	if (processing) {
+		return (
+			<div className="loading__container">
+				<CircularProgress />
+				Processing
+			</div>
+		);
 	}
 
+	if (isLoading) {
+		return (
+			<div className="loading__container">
+				<CircularProgress />
+			</div>
+		);
+	}
+
+	const isChecked = (elerollnumber) => {
+		console.log(elerollnumber);
+		console.log('chk');
+		for (let k in attendance) {
+			let attendobj = attendance[k];
+			console.log(attendobj?.id, elerollnumber);
+			if (attendobj?.id == elerollnumber) {
+				console.log('a');
+				return true;
+			}
+		}
+		return false;
+		// if (attarr.length > 0) {
+		// 	if (attarr.includes(elerollnumber)) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
+	};
+
 	return (
-		<div className={attendance.app}>
-			<div className={attendance.header}>
-				
-					<h1>Batch : {"g20"}</h1>
-
-					<div className={attendance.inputs} >
-						<FormControl   sx={{width:"30%"}}>
-							<InputLabel id="demo-simple-select-label"  >Period</InputLabel>
-
-							<Select
-							labelId="demo-simple-select-label"
-							id="demo-simple-select"
-							value={period}
-							label="Age"
-							onChange={handleChange}
-							>
-							<MenuItem value={"1"}>First</MenuItem>
-							<MenuItem value={"2"}>Second</MenuItem>
-							<MenuItem value={"3"}>Third</MenuItem>
-							</Select>
-
-						</FormControl>
-						
-						{/* DATE SELECTOR */}
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-								<MobileDatePicker
-								label="TODAY'S DATE"
-								value={date}
-								onChange={(newValue) => {
-									setDate(newValue);
-								}}
-								renderInput={(params) => <TextField {...params} />}
-								/>
-
-						</LocalizationProvider>
-						
-					</div>
-	
-					
-					
-
-			</div>
-			<div className={attendance.uploadimage}>
-	
-					 <IconButton color="primary" aria-label="upload picture" component="label"  >
-        				<input  id="classimg" accept="image/*" type="file" onChange={imageHandler} />
-	        				<PhotoCamera />
-    			  	</IconButton>
-					
-					<div className={attendance.preview}>
-						<img src={classImg} alt="upload class image" />
-					</div>
-
-					<IconButton color="primary" aria-label="confirm and process" component="label">
-						<Button variant="contained" component="label"  >
-							Process
-						</Button>
-					</IconButton>
-
-								
-					{/* {
-						if(imageprocessed){ 
-							return (<h2>Done</h2>);
-						}
-					} */}
-
+		<form className={markatt.body} onSubmit={(e) => submitAttendance(e)}>
+			<div className={markatt.header}>
+				<h1>Batch : {params.id.toUpperCase()}</h1>
 			</div>
 
-			
-			<div className={attendance.details}>
-				
-				<div className={attendance.detailsHeader}>
-					    
-						{/* header */}
-						<h1 style={{marginLeft:"2.5%"}} >Students :</h1>
-						<div className={attendance.btns}>
-							
-							<Link to=''>
-								<Edit sx={{marginTop:'20px',marginRight:'10px'}}/>
-							</Link>
-							<Box sx={{ bgcolor: 'white', height: '20px' }}>
-								<Button variant="contained" color="primary">
-									<Link to="">Submit</Link>
-								</Button>
-							</Box>
-						</div>
-						
-						
-				
-				</div>
+			<div className={markatt.main}>
+				<div className={markatt.main__fields}>
+					<TextField
+						select
+						className="select_period"
+						labelid="select_period"
+						id="select_period"
+						value={period}
+						onChange={(e) => setPeriod(e.target.value)}
+						label="Select Period"
+					>
+						<MenuItem value={1}>1st</MenuItem>
+						<MenuItem value={2}>2st</MenuItem>
+						<MenuItem value={3}>3rd</MenuItem>
+						<MenuItem value={4}>4th</MenuItem>
+						<MenuItem value={5}>5th</MenuItem>
+						<MenuItem value={6}>6th</MenuItem>
+						<MenuItem value={7}>7th</MenuItem>
+						<MenuItem value={8}>8th</MenuItem>
+					</TextField>
 
-				<div className={attendance.detailsMain}>
-					<div className={attendance.detailsOperations}>
-				
-						
-
-					</div>
-					<div className={attendance.table}>
-						
-						<DataGrid 
-							rows={rows}
-							columns={columns}
-							pageSize={8}
-							rowsPerPageOptions={[8]}
-							checkboxSelection
+					<LocalizationProvider dateAdapter={AdapterDateFns}>
+						<DesktopDatePicker
+							label="Date desktop"
+							inputFormat="MM/dd/yyyy"
+							value={date}
+							onChange={(e) => setDate(e.target.value)}
+							renderInput={(params) => <TextField {...params} />}
 						/>
-			
-
-					</div>
+					</LocalizationProvider>
 				</div>
 
-
-			
-				
-
-
+				<div className={markatt.image_class}>
+					<img src={URL ? URL : ''} alt="img"></img>
+				</div>
+				<button>View Enlarged</button>
+				<div>
+					<input
+						accept="image/*"
+						className="add-image"
+						style={{ display: 'none' }}
+						id="raised-button-file"
+						multiple
+						type="file"
+						onChange={(e) => {
+							setFile(e.target.files[0]);
+						}}
+					/>
+					<label htmlFor="raised-button-file">
+						<Button
+							variant="contained"
+							component="span"
+							className="inp"
+						>
+							Add class image
+						</Button>
+					</label>
+				</div>
 			</div>
-		</div>
-	);
-};
 
-export default Attendance;
+			<div className={markatt.records}>
+				<div className={markatt.recordsHeader}>
+					<div className={markatt.left}>
+						<h2>Students: </h2>
+					</div>
+					<div className={markatt.right}>
+						<select>
+							<option>No Filter</option>
+							<option>Absentees(NOT MARKED)</option>
+							<option>Presentees(MARKED)</option>
+						</select>
+					</div>
+				</div>
+				<div className={markatt.recordsBody}>
+					<table>
+						<tbody>
+							<tr>
+								<th>S. No.</th>
+								<th>Name</th>
+								<th>Roll No</th>
+								<th>Is present</th>
+							</tr>
+							{data.map((ele) => {
+								const b = isChecked(ele.rollnumber);
+								return (
+									<tr
+										key={ele.rollnumber}
+										className={markatt.studentR}
+									>
+										<td>{i++}</td>
+										<td>{ele.name}</td>
+										<td>{ele.rollnumber}</td>
+										<td>
+											<input
+												type="checkbox"
+												name="ispresent"
+												value={ele.rollnumber}
+												defaultChecked={isChecked(
+													ele.rollnumber
+												)}
+											/>
+										</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<Button
+				variant="contained"
+				onClick={() => identifyFace()}
+				disabled={URL ? false : true}
+			>
+				Update Attendance
+			</Button>
+			<Button
+				type="submit"
+				variant="contained"
+				onClick={() => submitAttendance()}
+			>
+				Submit Attendance
+			</Button>
+		</form>
+	);
+}

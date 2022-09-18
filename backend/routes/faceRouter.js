@@ -273,6 +273,33 @@ faceRouter.post('/identify', async (req, res) => {
 		const { personGroupId, faceIds } = req.body;
 		const faceData = await identifyFaces(personGroupId, faceIds);
 
+		// let data;
+		// let n = faceIds.length;
+
+		// if (n > 10) {
+		// 	let dataArr = [];
+		// 	let faceIdsSlice = []; // an array containing arrays of atmost 10 faceIds each
+		// 	let i = 0;
+		// 	while (i < n) {
+		// 		faceIdsSlice.push(faceIds.slice(i, i + 10));
+		// 		i += 10;
+		// 	}
+		// 	console.log('Face IDs Arr : ', faceIdsSlice);
+		// 	for (let i = 0; i < faceIdsSlice.length; i++) {
+		// 		let slicedDataResult = await identifyFaces(
+		// 			personGroupId,
+		// 			faceIdsSlice[i]
+		// 		);
+		// 		console.log(slicedDataResult);
+		// 		dataArr = [...dataArr, ...slicedDataResult];
+		// 	}
+		// 	data = dataArr;
+		// } else {
+		// 	data = await identifyFaces(personGroupId, faceIds);
+		// }
+
+		// faceData.data = data;
+
 		if (faceData.success === false) {
 			res.status(faceData.status).json({
 				success: false,
