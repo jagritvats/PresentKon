@@ -27,6 +27,14 @@
     padding-top: 3rem;
 }
 
+.profileimg{
+	max-width: 200px;
+	max-height: 250px;
+}
+
+.profileimg img{
+	width: 100%;
+}
 
 
 @media only screen and (max-width: 900px) {

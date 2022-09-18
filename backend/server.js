@@ -1,11 +1,15 @@
 // importing libraries
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+
 require('dotenv/config');
 
 // importing files
 const faceRouter = require('./routes/faceRouter');
 
 const app = express();
+app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,12 +23,19 @@ app.get('/api', (req, res) => {
 
 app.use('/api/face', faceRouter);
 
-// if(process.env.ENVIRONMENT === 'production'){
+if (process.env.NODE_ENV == 'production') {
+	app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-// }else{
-
-// }
-
+	app.get('*', (req, res) =>
+		res.sendFile(
+			path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')
+		)
+	);
+} else {
+	app.get('*', (req, res) => {
+		res.send('Please set to production');
+	});
+}
 app.use('*', (req, res) => {
 	res.json({
 		success: false,

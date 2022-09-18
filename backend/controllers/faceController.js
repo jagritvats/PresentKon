@@ -31,6 +31,7 @@ const errorHandler = (err, errorLocation) => {
 	}; // Default error Message
 
 	// Error Message from Azure Service
+	//Returning the error Body
 	if (err?.body?.error) {
 		error = { ...err.body.error };
 	} else {

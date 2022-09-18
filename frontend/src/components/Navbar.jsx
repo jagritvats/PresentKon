@@ -8,7 +8,7 @@ import { Typography } from '@mui/material';
 import { useState } from 'react';
 
 const Navbar = () => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
 
 	const logIn = () => {
 		console.log('login');

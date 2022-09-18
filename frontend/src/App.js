@@ -50,7 +50,7 @@ function App() {
 						/>
 						<Route
 							exact
-							path="/attendance"
+							path="/batch/:id"
 							element={<AttendancePage />}
 						/>
 						<Route exact path="/batch" element={<BatchPage />} />
