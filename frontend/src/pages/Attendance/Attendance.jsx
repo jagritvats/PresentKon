@@ -14,8 +14,6 @@ import { db } from '../../config/firebase';
 import { Button, CircularProgress, MenuItem, TextField } from '@mui/material';
 import axios from 'axios';
 import useStorage from '../../hooks/useStorage';
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 export default function Markattendance(props) {
 	const [data, setData] = useState([]); // batch data -> students list
@@ -249,15 +247,7 @@ export default function Markattendance(props) {
 						<MenuItem value={8}>8th</MenuItem>
 					</TextField>
 
-					<LocalizationProvider dateAdapter={AdapterDateFns}>
-						<DesktopDatePicker
-							label="Date desktop"
-							inputFormat="MM/dd/yyyy"
-							value={date}
-							onChange={(e) => setDate(e.target.value)}
-							renderInput={(params) => <TextField {...params} />}
-						/>
-					</LocalizationProvider>
+					<input type="date" name="" id="" />
 				</div>
 
 				<div className={markatt.image_class}>
