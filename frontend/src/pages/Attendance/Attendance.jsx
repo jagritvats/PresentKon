@@ -16,7 +16,7 @@ import TextField from '@mui/material/TextField';
 
 import {Edit} from '@mui/icons-material';
 
-// import { Ed} from '@mui/icons/Edit';
+
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -28,10 +28,14 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+// image
+import previewimg from './previewImg.png';
 
 
 
 
+
+// FOR TABLE
 const columns: GridColDef[] = [
 	{ field: 'id', headerName: 'S.NO.', width: 10  },
 	{ field: 'name', headerName: 'NAME', width: 700 },
@@ -77,9 +81,26 @@ const Attendance = () => {
 		console.log(period);
 	};
 
-	// FOR TABLE
-		
 	
+		
+	// image preview
+	const [classImg,setClassImg] = useState('https://image.shutterstock.com/image-vector/group-people-icon-260nw-342536540.jpg');
+	// const [classImg,setClassImg] = useState(previewimg);
+
+	//image handler
+	function imageHandler(e){
+
+		const reader = new FileReader();
+
+		reader.onload=()=>{
+			if(reader.readyState===2){
+				setClassImg(reader.result);
+			}
+		}
+
+		reader.readAsDataURL(e.target.files[0]);
+	}
+
 	return (
 		<div>
 			<div className={attendance.header}>
@@ -118,37 +139,39 @@ const Attendance = () => {
 						</LocalizationProvider>
 						
 					</div>
-					{/* select date  */}
+	
 					
 					
 
 			</div>
 			<div className={attendance.uploadimage}>
-				{/* upload image */}
-					 <IconButton color="primary" aria-label="upload picture" component="label">
-        				<input  accept="image/*" type="file" />
+	
+					 <IconButton color="primary" aria-label="upload picture" component="label"  >
+        				<input  id="classimg" accept="image/*" type="file" onChange={imageHandler} />
 	        				<PhotoCamera />
     			  	</IconButton>
+					
+					<div className={attendance.preview}>
+						<img src={classImg} alt="upload class image" />
+					</div>
+
 					<IconButton color="primary" aria-label="confirm and process" component="label">
-						<Button variant="contained" component="label" >
+						<Button variant="contained" component="label"  >
 							Process
 						</Button>
 					</IconButton>
+
+								
 					{/* {
 						if(imageprocessed){ 
 							return (<h2>Done</h2>);
 						}
 					} */}
-				{/* preview */}
-				{/* confirmation */}
-				{/* processing or conditional rendering */}
+
 			</div>
 
 			
 			<div className={attendance.details}>
-				{/* "students" */}
-							{/* update or edit attendance - icon pencil- in already done atte. */}
-							{/* submit attend. */}
 				
 				<div className={attendance.detailsHeader}>
 					    
@@ -167,14 +190,12 @@ const Attendance = () => {
 						</div>
 						
 						
-						{/*submit btn  */}
+				
 				</div>
 
 				<div className={attendance.detailsMain}>
 					<div className={attendance.detailsOperations}>
 				
-						{/* search bar-list acc. to name */}
-						{/* filter->for def,absents,present  */}
 						
 
 					</div>
