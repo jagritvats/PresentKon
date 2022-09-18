@@ -21,7 +21,7 @@ function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
-				<Navbar />
+				<Navbar/>
 				<main>
 					<Routes>
 						<Route exact path="/" element={<HomePage />} />
