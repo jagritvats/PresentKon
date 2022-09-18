@@ -1,0 +1,41 @@
+.header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;    
+    padding: 10px;
+}
+
+.header h1{
+    padding-left: 2%;
+}
+.inputs{
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+}
+
+.inputs *{
+    margin-left: 10px;
+    
+}
+
+.btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+
+.detailsHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+    
+}
+
+.table{
+    height: 80vh;
+    padding: 20px;
+}
