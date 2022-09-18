@@ -7,9 +7,6 @@
     /* padding-right:0 ; */
 }
 
-.header h1{
-    padding-left: 2%;
-}
 .inputs{
     display: flex;
     width: 50%;
@@ -29,19 +26,26 @@
     padding-right:0 ;
 }
 
-
+.details{
+    width: 100%;
+}
 .detailsHeader{
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 10vh;
-    
+    padding-right: 10px;
 }
 
 .table{
     height: 80vh;
     padding: 20px;
     padding-right: 0;
+}
+
+.Grid{
+
 }
 
 .preview{
@@ -60,4 +64,122 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+
+
+
+
+/* RESPONSIVE DESIGN */
+@media only screen and (max-width:800px) {
+
+    /* For mobile tablets: */
+    
+    .inputs{
+        width: 30%;
+        flex-direction: column;
+        padding-right: 8%;
+        height: 100%;
+    }
+    .inputs *{
+        margin: 5px;
+    }
+}
+
+
+@media only screen and (max-width:590px) {
+
+    /* For mobile tablets: */
+    
+    .uploadimage {
+
+    }
+
+    .header{
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-start;
+        align-items:center;
+        padding: 5px;
+    }
+    .header h1{
+        margin-left: -8%;
+    }
+
+    .inputs {
+        width: 45%;
+        flex-direction: column;
+        
+    }
+
+    .inputs * {
+        margin: 5px;
+    }
+        .table {
+            padding-left: 0;
+        }
+}
+
+@media only screen and (max-width:404px) {
+
+    /* For mobile tablets: */
+
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .header h1 {
+        margin-left: -8%;
+    }
+
+    .inputs {
+        width: 80%;
+        flex-direction: column;
+
+    }
+
+    .inputs * {
+        margin: 5px;
+    }
+
+    .uploadimage{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+
+    .camera,.processBtn{
+        margin: 5px;
+        height: 5vh;
+    }
+
+    .camera{
+        position: absolute !important;
+        bottom: 0px !important;
+        left: 60px !important;    
+    }
+    .processBtn{
+        position: absolute !important;
+        bottom: 0px !important;
+        right: 60px !important;
+    }
+    
+    .detailsHeader{
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .table{
+        padding-left: 0;
+    }
+}
+
+
+
 

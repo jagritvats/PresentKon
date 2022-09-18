@@ -35,21 +35,24 @@ import previewimg from './previewImg.png';
 
 
 
+ 
+
 // FOR TABLE
 const columns: GridColDef[] = [
-	{ field: 'id', headerName: 'S.NO.', width: 10  },
-	{ field: 'name', headerName: 'NAME', width: 700 },
+	{ field: 'id', headerName: 'S.NO.' ,flex:1},
+	{ field: 'name', headerName: 'NAME',flex:2,maxWidth:500},
 	{
 		field: 'rollno',
 		headerName: 'Roll No',
 		// type: 'number',
-		width: 240,
+		flex:3,
+		
 	}
 	,
 	{
 		field: 'status',
-		headerName:'Present/Absent',
-		width:240
+		headerName:'Status',
+		flex:1
 	}
 	];
 
@@ -108,7 +111,7 @@ const Attendance = () => {
 					<h1>Batch : {"g20"}</h1>
 
 					<div className={attendance.inputs} >
-						<FormControl   sx={{width:"30%"}}>
+						<FormControl >
 							<InputLabel id="demo-simple-select-label"  >Period</InputLabel>
 
 							<Select
@@ -146,7 +149,7 @@ const Attendance = () => {
 			</div>
 			<div className={attendance.uploadimage}>
 	
-					 <IconButton color="primary" aria-label="upload picture" component="label" sx={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}  >
+					 <IconButton className={attendance.camera} color="primary" aria-label="upload picture" component="label" sx={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}  >
         				<input  id="classimg" hidden accept="image/*" type="file" onChange={imageHandler} />
 	        				<PhotoCamera />
 							<h6>Upload</h6>
@@ -158,7 +161,7 @@ const Attendance = () => {
 						<img src={classImg} alt="upload class image" />
 					</div>
 
-					<IconButton color="primary" aria-label="confirm and process" component="label">
+					<IconButton className={attendance.processBtn} color="primary" aria-label="confirm and process" component="label">
 						<Button variant="contained" component="label"  >
 							Process
 						</Button>
@@ -204,7 +207,7 @@ const Attendance = () => {
 					</div>
 					<div className={attendance.table}>
 						
-						<DataGrid 
+						<DataGrid  className={attendance.Grid}
 							rows={rows}
 							columns={columns}
 							pageSize={8}
