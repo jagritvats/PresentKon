@@ -15,9 +15,13 @@
 .navMenu {
 	background-color: white;
     /* padding-right: 10rem; */
-	height: 20px;
+	height: 3%;
 	display: flex;
 	gap: 2em;
+}
+
+.navBtn{
+	height: 20%;
 }
 
 .navMenuItem:hover{
@@ -29,4 +33,23 @@
 	margin-top: -27%;
 	width: 80%;
 	/* height: 150%; */
+}
+
+
+@media only screen and (max-width: 900px) {
+	.nav{
+		/* background-color: red; */
+		padding: 0em 1.3em;
+	}
+
+	#home{
+		display: none;
+	}
+}
+
+
+@media only screen and (max-width: 320px) {
+	#contact{
+		display: none;
+	}
 }

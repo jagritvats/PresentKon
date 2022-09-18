@@ -23,7 +23,7 @@ const AddStudent = () => {
 				<Box className={styles.addstudentMain}>
 					<Box>
 						<img src={image} alt="this is image" />
-						<Box sx={{ paddingTop: '3em' }}>
+						<Box sx={{ paddingTop: '1em' }}>
 							<Button
 								variant="contained"
 								sx={{ bgcolor: '#FF4F29' }}
@@ -63,7 +63,7 @@ const AddStudent = () => {
 						</Box>
 					</Box>
 				</Box>
-				<Button variant="contained">Add</Button>
+				<Button sx={{marginTop: "2em"}} variant="contained">Add</Button>
 			</Box>
 		</div>
 	);

@@ -18,7 +18,7 @@ const Navbar = () => {
 	const func = () => {
 		if (isLoggedIn) {
 			return (
-				<Box sx={{ bgcolor: 'white', height: '20px' }}>
+				<Box className={styles.navBtn}>
 					<Link to="/dashboard">
 						<Button variant="contained" color="primary">
 							Dashboard
@@ -28,7 +28,7 @@ const Navbar = () => {
 			);
 		} else {
 			return (
-				<Box sx={{ bgcolor: 'white', height: '20px' }}>
+				<Box className={styles.navBtn}>
 					<Button
 						variant="contained"
 						color="primary"
@@ -54,12 +54,12 @@ const Navbar = () => {
 					</Link>
 				</Box>
 				<Box className={styles.navMenu}>
-					<Link to="/">
+					<Link id={styles.home} to="/">
 						<Typography variant="h6" component="h1">
 							Home
 						</Typography>
 					</Link>
-					<a href="#contact">
+					<a id={styles.contact} href="#contact">
 						<Typography variant="h6" component="h1">
 							Contact
 						</Typography>

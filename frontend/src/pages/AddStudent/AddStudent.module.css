@@ -16,13 +16,28 @@
 
 .addstudentMainRight{
     display: flex;
-    width: 40%;
+    width: 35%;
     /* border: 1px solid red; */
     flex-direction: column;
-    padding: 50px;
+    /* padding: 50px; */
     justify-content: space-between;
 }
 
 .addstudentMainRight>*{
     padding-top: 3rem;
+}
+
+
+
+@media only screen and (max-width: 900px) {
+	.addstudentMain{
+		display: flex;
+		flex-direction: column;
+	}
+	.addstudentMainRight{
+		width: auto;
+	}
+	.addstudentMainRight>*{
+		padding-top: 1em;
+	}
 }

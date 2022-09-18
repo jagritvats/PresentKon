@@ -12,18 +12,18 @@ const Footer = () => {
 			<Box className={styles.footer}>
 				{/* this is footer. */}
 				<Box className={styles.footerLeft}>
-					<Typography variant='h3' component='h2'>
+					<Typography className={styles.footerText} variant='h3' component='h2'>
 						Present Kon
 					</Typography>
 				</Box>
 				<Box className={styles.footerCenter}>
-					<Typography variant='h6' component='h2'>
+					<Typography className={styles.footerText} variant='h6' component='h2'>
 						Made by team Logicode for HTM 3.0
 					</Typography>
 				</Box>
 
 				<Box className={styles.footerRight}>
-					<Typography variant='h6' component='h2'>
+					<Typography className={styles.footerText} variant='h6' component='h2'>
 						{/* HelpDesk */}
 						<a href = "mailto: presentkon@gmail.com">Email: presentkon@gmail.com</a>
 					</Typography>

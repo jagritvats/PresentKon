@@ -12,14 +12,19 @@
     justify-content: space-evenly;
 }
 
-.footerLeft{
-
+.footerText{
+    font-size: 1.3em;
 }
 
-.footerCenter{
-
-}
-
-.footerRight{
-
+@media only screen and (max-width: 600px) {
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        height: auto;
+    }
+    .footer>*{
+        padding: 0.8em 0;
+    }
 }
