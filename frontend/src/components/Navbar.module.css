@@ -20,6 +20,10 @@
 	gap: 2em;
 }
 
+.navMenuItem:hover{
+	background-color: #1976d2;
+}
+
 .logoImage {
 	/* border: 1px solid red; */
 	margin-top: -27%;

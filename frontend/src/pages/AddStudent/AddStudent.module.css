@@ -1,0 +1,28 @@
+.addstudent {
+	/* background-color: red; */
+	width: 90%;
+	height: auto;
+	margin: auto;
+	padding-top: 3em;
+}
+
+.addstudentMain {
+	padding-top: 2em;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+
+.addstudentMainRight{
+    display: flex;
+    width: 40%;
+    /* border: 1px solid red; */
+    flex-direction: column;
+    padding: 50px;
+    justify-content: space-between;
+}
+
+.addstudentMainRight>*{
+    padding-top: 3rem;
+}
