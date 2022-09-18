@@ -102,7 +102,7 @@ const Attendance = () => {
 	}
 
 	return (
-		<div>
+		<div className={attendance.app}>
 			<div className={attendance.header}>
 				
 					<h1>Batch : {"g20"}</h1>
