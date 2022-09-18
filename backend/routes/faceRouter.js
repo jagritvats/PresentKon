@@ -157,7 +157,11 @@ faceRouter.delete('/person/:pgid/:pid', async (req, res) => {
 faceRouter.post('/addimage', async (req, res) => {
 	try {
 		const { personGroupId, personId, imgurl } = req.body;
-		const personData = await createPerson(personGroupId, personId, imgurl);
+		const personData = await addFaceImageToPerson(
+			personGroupId,
+			personId,
+			imgurl
+		);
 
 		if (personData.success === false) {
 			res.status(personData.status).json({

@@ -168,6 +168,17 @@ const detectFaces = async (imgurl) => {
 
 const identifyFaces = async (person_group_id, faceIds) => {
 	try {
+		// if (face_ids.length > 10) {
+		// 	let i = 0;
+		// 	// let sliced_face_ids = face_ids[i, i+10];
+		// 	while (i < face_ids.length) {
+		// 		sliced_face_ids = face_ids[i, i + 10];
+		// 		let temp_res = await client.face.identify(slices_face_ids, {
+		// 			personGroupId: person_group_id,
+		// 			// confidenceThreshold: 0.6
+		// 		});
+		// 	}
+		// }
 		const identifiedData = await client.face.identify(faceIds, {
 			personGroupId: person_group_id,
 		});

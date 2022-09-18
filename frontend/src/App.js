@@ -21,14 +21,14 @@ import { useEffect } from 'react';
 function App() {
 	const demo = useEffect(() => {
 		(async () => {
-			const res = await fetch('/api');
+			const res = await fetch('/api/face');
 			console.log('From server : ', res);
 		})();
 	});
 	return (
 		<div className="App">
 			<BrowserRouter>
-				<Navbar/>
+				<Navbar />
 				<main>
 					<Routes>
 						<Route exact path="/" element={<HomePage />} />

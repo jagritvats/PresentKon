@@ -63,7 +63,9 @@ const AddStudent = () => {
 						</Box>
 					</Box>
 				</Box>
-				<Button sx={{marginTop: "2em"}} variant="contained">Add</Button>
+				<Button sx={{ marginTop: '2em' }} variant="contained">
+					Add
+				</Button>
 			</Box>
 		</div>
 	);
